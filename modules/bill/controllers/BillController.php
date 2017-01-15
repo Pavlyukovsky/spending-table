@@ -5,6 +5,7 @@ namespace app\modules\bill\controllers;
 use Yii;
 use app\modules\bill\models\Bill;
 use app\modules\bill\models\BillSearch;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -27,6 +28,19 @@ class BillController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionTest()
+    {
+        echo 'Last month<hr>';
+        $models = Bill::getBillsByLastMonth();
+        VarDumper::dump($models,10,true);echo '<hr>';
+        echo 'Last year<hr>';
+        $models = Bill::getBillsByLastYear();
+        VarDumper::dump($models,10,true);echo '<hr>';
+        echo 'Current month<hr>';
+        $models = Bill::getBillsByCurrentMonth();
+        VarDumper::dump($models,10,true);echo '<hr>';
     }
 
     /**
@@ -66,7 +80,7 @@ class BillController extends Controller
         $model = new Bill();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,7 +99,7 @@ class BillController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

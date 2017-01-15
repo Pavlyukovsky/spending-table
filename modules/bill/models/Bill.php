@@ -2,8 +2,10 @@
 
 namespace app\modules\bill\models;
 
+use app\models\BeautyDate;
 use app\models\Entity;
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "bill".
@@ -56,6 +58,70 @@ class Bill extends Entity
             'deleted' => 'Deleted',
         ];
     }
+
+
+    /**
+     * Получаем данные за прошлый месяц.
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
+    public static function getBillsByLastMonth()
+    {
+        $lastMonth = BeautyDate::getLastMonth();
+        $now = strtotime('+1 month', $lastMonth);
+
+        $lastMonthBeauty = BeautyDate::getBeautyDate($lastMonth);
+        $nowBeauty = BeautyDate::getBeautyDate($now);
+
+
+        $models = Bill::find()->where(['deleted' => Entity::NOT_DELETED])->andWhere('`created_at` <= "'.$nowBeauty .'"')->andWhere('`created_at` >= "'.$lastMonthBeauty.'"')->all();
+        if($models){
+            return $models;
+        }
+
+        return false;
+    }
+
+    /**
+     * Получаем данные за прошлый Год.
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
+    public static function getBillsByLastYear()
+    {
+        $lastYear = BeautyDate::getLastYear();
+        $now = strtotime('+1 year', $lastYear);
+
+        $lastYearBeauty = BeautyDate::getBeautyDate($lastYear);
+        $nowBeauty = BeautyDate::getBeautyDate($now);
+
+
+        $models = Bill::find()->where(['deleted' => Entity::NOT_DELETED])->andWhere('`created_at` <= "'.$nowBeauty .'"')->andWhere('`created_at` >= "'.$lastYearBeauty.'"')->all();
+        if($models){
+            return $models;
+        }
+
+        return false;
+    }
+
+    /**
+     * Получаем данные за текуший меяц
+     * @return array|bool|\yii\db\ActiveRecord[]
+     */
+    public static function getBillsByCurrentMonth()
+    {
+        $nowMonth = BeautyDate::getThisMonth();
+        $nowMonthBeauty = BeautyDate::getBeautyDate($nowMonth);
+
+
+        $models = Bill::find()->where(['deleted' => Entity::NOT_DELETED])->andWhere('`created_at` >= "'.$nowMonthBeauty.'"')->all();
+        if($models){
+            return $models;
+        }
+
+        return false;
+    }
+
+
+
 
     /**
      * @return \yii\db\ActiveQuery
