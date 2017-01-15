@@ -4,7 +4,7 @@ use yii\db\Migration;
 
 class m170114_125248_init_list_table extends Migration
 {
-    const LIST_TABLE_NAME = '{{%list}}';
+    const TASKS_TABLE_NAME = '{{%tasks}}';
 
     public function up()
     {
@@ -18,7 +18,7 @@ class m170114_125248_init_list_table extends Migration
         }
 
 
-        $this->createTable($this::LIST_TABLE_NAME,[
+        $this->createTable($this::TASKS_TABLE_NAME,[
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
             'description' => $this->text()->notNull(),
@@ -32,7 +32,7 @@ class m170114_125248_init_list_table extends Migration
     public function down()
     {
 //        $this->dropForeignKey('fk_christmas_tree_to_user', $this::LIST_TABLE_NAME);
-        $this->dropTable($this::LIST_TABLE_NAME);
+        $this->dropTable($this::TASKS_TABLE_NAME);
         return true;
     }
 
