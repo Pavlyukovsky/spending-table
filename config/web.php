@@ -10,7 +10,9 @@ $config = [
         'task' => [
             'class' => 'app\modules\task\Module',
         ],
-
+        'bill' => [
+            'class' => 'app\modules\bill\Module',
+        ],
     ],
     'components' => [
         'urlManager' => [
