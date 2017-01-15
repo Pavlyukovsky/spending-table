@@ -64,9 +64,10 @@ class BillController extends Controller
             echo 'Total spend by category <b>'.$category->name.'</b><br>';
             $price = Bill::getTotalPriceByCategotyId($models,$category->id);
             VarDumper::dump($price,10,true);echo '<br><br>';
+
             $bills = $category->bills;
             foreach ($bills as $bill) {
-                echo 'Bill name <b>'.$bill->name.'</b> spend: '.$bill->price;echo '<br>';
+                echo 'Bill name <b>'.$bill->name. '</b> spend: <b style="color:#ff6400">' .$bill->price.'</b><br>';
             }
             echo '<hr>';
         }
