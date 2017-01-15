@@ -2,6 +2,7 @@
 
 namespace app\modules\bill\models;
 
+use app\models\Entity;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -42,7 +43,7 @@ class BillSearch extends Bill
      */
     public function search($params)
     {
-        $query = Bill::find();
+        $query = Bill::find()->where(['deleted' => Entity::NOT_DELETED]);
 
         // add conditions that should always apply here
 

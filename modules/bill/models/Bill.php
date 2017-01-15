@@ -121,7 +121,40 @@ class Bill extends Entity
     }
 
 
+    /**
+     * Посчитывает общий чек всех моделей и возравщает его.
+     * @param $models Bill
+     * @return bool|int
+     */
+    public static function getTotalPrice($models)
+    {
+        $price = 0;
 
+        foreach ($models as $model) {
+            $price += $model->price;
+        }
+
+        return $price;
+    }
+
+    /**
+     * Посчитывает общий чек всех моделей с данной категорией и возравщает его.
+     * @param $models Bill
+     * @param $id int Категори Ид
+     * @return int
+     */
+    public static function getTotalPriceByCategotyId($models,$id)
+    {
+        $price = 0;
+
+        foreach ($models as $model) {
+            if($model->category_id == $id){
+                $price += $model->price;
+            }
+        }
+
+        return $price;
+    }
 
     /**
      * @return \yii\db\ActiveQuery

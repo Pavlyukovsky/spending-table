@@ -5,6 +5,7 @@ namespace app\modules\bill\models;
 use app\models\Entity;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "bill_category".

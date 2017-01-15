@@ -2,6 +2,8 @@
 
 namespace app\modules\bill\controllers;
 
+use app\modules\bill\models\BillCategory;
+use Faker\Provider\cs_CZ\DateTime;
 use Yii;
 use app\modules\bill\models\Bill;
 use app\modules\bill\models\BillSearch;
@@ -32,15 +34,42 @@ class BillController extends Controller
 
     public function actionTest()
     {
-        echo 'Last month<hr>';
-        $models = Bill::getBillsByLastMonth();
-        VarDumper::dump($models,10,true);echo '<hr>';
-        echo 'Last year<hr>';
-        $models = Bill::getBillsByLastYear();
-        VarDumper::dump($models,10,true);echo '<hr>';
-        echo 'Current month<hr>';
+//        echo 'Last month<hr>';
+//        $models = Bill::getBillsByLastMonth();
+//        VarDumper::dump($models,10,true);echo '<hr>';
+//        echo 'Last year<hr>';
+//        $models = Bill::getBillsByLastYear();
+//        VarDumper::dump($models,10,true);echo '<hr>';
+//        echo 'Current month<hr>';
         $models = Bill::getBillsByCurrentMonth();
-        VarDumper::dump($models,10,true);echo '<hr>';
+//        VarDumper::dump($models,10,true);echo '<hr>';
+
+//        $category = BillCategory::find()->where(['id' => 1])->one();
+//
+//        echo 'Total spend by category <b>'.$category->name.'</b><br>';
+//        $price = Bill::getTotalPriceByCategotyId($models,$category->id);
+//        VarDumper::dump($price,10,true);echo '<hr>';
+//        echo 'Total spend<br>';
+//        $price = Bill::getTotalPrice($models);
+//        VarDumper::dump($price,10,true);echo '<hr>';
+
+
+        echo 'Total spend<br>';
+        $price = Bill::getTotalPrice($models);
+        VarDumper::dump($price,10,true);echo '<hr>';
+
+        $categories = BillCategory::find()->all();
+
+        foreach ($categories as $category){
+            echo 'Total spend by category <b>'.$category->name.'</b><br>';
+            $price = Bill::getTotalPriceByCategotyId($models,$category->id);
+            VarDumper::dump($price,10,true);echo '<br><br>';
+            $bills = $category->bills;
+            foreach ($bills as $bill) {
+                echo 'Bill name <b>'.$bill->name.'</b> spend: '.$bill->price;echo '<br>';
+            }
+            echo '<hr>';
+        }
     }
 
     /**
