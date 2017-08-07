@@ -24,6 +24,7 @@ $this->title = 'My Yii Application';
                 ]); ?>
 
                 <?= $form->field($model, 'currentSalary')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'spending')->textInput() ?>
 
                 <?= $form->field($model, 'amountUp')->textInput() ?>
                 <?= $form->field($model, 'month')->textInput() ?>
@@ -47,21 +48,23 @@ $this->title = 'My Yii Application';
                         <span class="label label-danger">Danger</span>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-lg-12 active">
+                        <div class="col-lg-12">
                             Total: <?= $total; ?>
                         </div>
                     </div>
                 </div>
+                <?php if(isset($years)):?>
                 <?php foreach ($years as $number => $year): ?>
                     <div class="row">
                         <div class="panel panel-info">
                             <div class="panel-heading">Panel heading Year #<?= $number + 1; ?></div>
-                            <table class="table year">
+                            <table class="table year text-center">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Current salary</th>
-                                    <th>Saved</th>
+                                    <th class="text-center"><?=Yii::t('app', 'Current salary')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Remaining money')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Saved')?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -69,19 +72,22 @@ $this->title = 'My Yii Application';
                                     <tr class="<?php echo (!($key % 2)) ? "active" : ""; ?>">
                                         <th scope="row"><?= $key + 1 ?></th>
                                         <td><?= $item['currentSalary']; ?></td>
+                                        <td><?= $item['remainingMoney']; ?></td>
                                         <td><?= $item['saved'] ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <tr class="success">
                                     <th scope="row">Total:</th>
-                                    <td>Total in all: <?= $year['total_all']; ?></td>
-                                    <td>Total in this year: <?= $year['total_year'] ?></td>
+                                    <td></td>
+                                    <td><?= Yii::t('app', 'Total in all years: ');?><?= $year['total_all']; ?></td>
+                                    <td><?= Yii::t('app', 'Total in this year: ');?><?= $year['total_year'] ?></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php endif;?>
             </div>
         </div>
 

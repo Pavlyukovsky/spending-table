@@ -24,8 +24,10 @@ class GoalController extends Controller
         }
 
         $startSalary = $model->currentSalary; // Начальная ставка (Example: 300)
+        $spending = $model->spending; //
         $amountUp = $model->amountUp; // Каждые 3 месяца на сколько повышать (Example: 100)
         $currentSalary = $startSalary; // Текушая ставка на данный месяц. (Розшитывается)
+        $remainingMoney = $startSalary - $spending; // Сколько осталось на данный месяц.
         $month = $model->month; // Количество месяцов. (Example: 24)
 
         // Всего денег
@@ -38,11 +40,12 @@ class GoalController extends Controller
         $year_amount = 0; // Всего в год
 
         for ($i = 1; $i < $month + 1; $i++) {
-            $year_amount += $currentSalary;
-            $years[$year]['items'][] = ['currentSalary' => $currentSalary, 'saved' => $year_amount];
+            $year_amount += $remainingMoney;
+            $years[$year]['items'][] = ['currentSalary' => $currentSalary, 'remainingMoney' => $remainingMoney, 'saved' => $year_amount];
 
             // Если дошли до повышения. То повышаем ЗП.
             if (!($i % 3)) {
+                $remainingMoney += $amountUp;
                 $currentSalary += $amountUp;
             }
 

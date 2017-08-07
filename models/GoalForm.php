@@ -14,6 +14,7 @@ use yii\base\Model;
 class GoalForm extends Model
 {
     public $currentSalary;
+    public $spending;
     public $amountUp;
     public $month;
 
@@ -23,8 +24,8 @@ class GoalForm extends Model
     public function rules()
     {
         return [
-            [['currentSalary', 'amountUp', 'month'], 'required'],
-            [['currentSalary', 'amountUp', 'month'], 'integer'],
+            [['currentSalary', 'spending', 'amountUp', 'month'], 'required'],
+            [['currentSalary', 'spending', 'amountUp', 'month'], 'integer'],
         ];
     }
 }
