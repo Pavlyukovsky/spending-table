@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\GoalBitconnectForm;
 use app\models\GoalForm;
 use Yii;
 use yii\helpers\VarDumper;
@@ -63,27 +64,34 @@ class GoalController extends Controller
     }
 
 
+    /**
+     * // Положил 1000;
+     * // Процент в день 0.86;
+     * // Процент добавляется к сумме, по нему выплачивается процент и делаеться капитализация
+     *
+     * @return bool|string
+     */
     public function actionBitconnect()
     {
-        // Положил 1000;
-        // Процент в день 0.86;
-        // Процент добавляется к сумме, по нему выплачивается процент и делаеться капитализация
+        $model = new GoalBitconnectForm();
+        if (!$model->load(Yii::$app->request->post()) || !$model->validate()) {
+            return $this->render('bitconnect', [
+                'model' => $model,
+            ]);
+        }
 
+        $begin = (double)$model->begin;
+        $percent = (double)$model->percent;
+        $days = (int)$model->days;
+        $isCapitalization = ($model->capitalize) ? true : false;
 
-        $begin = 100;
-        $percent = 0.96;
         $cash = $begin;
-//        $days = 90;
-        $days = 30*12;
-
-        $isCapitalization = true;
         $sum = $begin;
-
-        echo "<pre>";
-        $add = 0;
         for ($i = 0; $i < $days - 1; $i++){
             if ($isCapitalization){
                 $add = $cash * $percent / 100;
+            } else {
+                $add = $sum * $percent / 100;
             }
 
             $cash = $cash + $add;
@@ -97,8 +105,8 @@ class GoalController extends Controller
         $percentSum = $cash - $sum;
         printf("Ваш балланс за %s дней = %s <br>", $days, $cash);
         printf("Ваши вложения = %s <br>", $begin);
-        $allPercent = (100 * $cash / $begin) - 100; // 100% = $begin; x% = $cash;
+        $allPercent = (100 * $cash / $begin) - 100;
         printf("Ваш процент = %s (%s %% - от суммы вложений) <br>", $percentSum, $allPercent);
-        return true;
+        return $this->render('bitconnect', ['model' => $model]);
     }
 }
