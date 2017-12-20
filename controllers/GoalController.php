@@ -65,34 +65,40 @@ class GoalController extends Controller
 
     public function actionBitconnect()
     {
-        $begin = 1000;
+        // Положил 1000;
+        // Процент в день 0.86;
+        // Процент добавляется к сумме, по нему выплачивается процент и делаеться капитализация
+
+
+        $begin = 100;
         $percent = 0.96;
         $cash = $begin;
-        $add = 100;
-        $days = 30;
+//        $days = 90;
+        $days = 30*12;
 
+        $isCapitalization = true;
         $sum = $begin;
-        $percentSum = 0;
-        $everyDay = 0;
 
         echo "<pre>";
+        $add = 0;
         for ($i = 0; $i < $days - 1; $i++){
-            $w = $cash;
-            $cash += $add;
-            $cash *= $percent;
+            if ($isCapitalization){
+                $add = $cash * $percent / 100;
+            }
+
+            $cash = $cash + $add;
 
             printf("Баланс за день № %s = %s <br>", ($i + 1), $cash);
-
-            $sum += $add;
-            $everyDay = $cash - $w - $add;
-            printf("Получено за день = %s <br>", $everyDay);
+            printf("Получено за день = %s <br>", $add);
             echo "<hr>";
         }
 
         echo "<br>";
         $percentSum = $cash - $sum;
         printf("Ваш балланс за %s дней = %s <br>", $days, $cash);
-        printf("Ваши вложения = %s <br>", $sum);
-        printf("Ваш процент = %s <br>", $percentSum);
+        printf("Ваши вложения = %s <br>", $begin);
+        $allPercent = (100 * $cash / $begin) - 100; // 100% = $begin; x% = $cash;
+        printf("Ваш процент = %s (%s %% - от суммы вложений) <br>", $percentSum, $allPercent);
+        return true;
     }
 }
