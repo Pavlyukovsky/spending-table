@@ -63,4 +63,36 @@ class GoalController extends Controller
     }
 
 
+    public function actionBitconnect()
+    {
+        $begin = 1000;
+        $percent = 0.96;
+        $cash = $begin;
+        $add = 100;
+        $days = 30;
+
+        $sum = $begin;
+        $percentSum = 0;
+        $everyDay = 0;
+
+        echo "<pre>";
+        for ($i = 0; $i < $days - 1; $i++){
+            $w = $cash;
+            $cash += $add;
+            $cash *= $percent;
+
+            printf("Баланс за день № %s = %s <br>", ($i + 1), $cash);
+
+            $sum += $add;
+            $everyDay = $cash - $w - $add;
+            printf("Получено за день = %s <br>", $everyDay);
+            echo "<hr>";
+        }
+
+        echo "<br>";
+        $percentSum = $cash - $sum;
+        printf("Ваш балланс за %s дней = %s <br>", $days, $cash);
+        printf("Ваши вложения = %s <br>", $sum);
+        printf("Ваш процент = %s <br>", $percentSum);
+    }
 }
