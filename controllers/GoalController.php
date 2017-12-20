@@ -51,7 +51,7 @@ class GoalController extends Controller
             }
 
             // Если наступил новый год. Или закончились месяца.
-            if(!($i % 12) || $i == $month){
+            if (!($i % 12) || $i == $month) {
                 $total += $year_amount;
                 $years[$year]['total_year'] = $year_amount;
                 $years[$year]['total_all'] = $total;
@@ -87,8 +87,9 @@ class GoalController extends Controller
 
         $cash = $begin;
         $sum = $begin;
-        for ($i = 0; $i < $days - 1; $i++){
-            if ($isCapitalization){
+        $resultDays = [];
+        for ($i = 0; $i < $days; $i++) {
+            if ($isCapitalization) {
                 $add = $cash * $percent / 100;
             } else {
                 $add = $sum * $percent / 100;
@@ -96,17 +97,12 @@ class GoalController extends Controller
 
             $cash = $cash + $add;
 
-            printf("Баланс за день № %s = %s <br>", ($i + 1), $cash);
-            printf("Получено за день = %s <br>", $add);
-            echo "<hr>";
+            $resultDays[] = ['balance' => $cash, 'earned' => $add];
         }
 
-        echo "<br>";
-        $percentSum = $cash - $sum;
-        printf("Ваш балланс за %s дней = %s <br>", $days, $cash);
-        printf("Ваши вложения = %s <br>", $begin);
         $allPercent = (100 * $cash / $begin) - 100;
-        printf("Ваш процент = %s (%s %% - от суммы вложений) <br>", $percentSum, $allPercent);
-        return $this->render('bitconnect', ['model' => $model]);
+        $earned = $cash - $sum;
+        $resultAll = ['balance' => $cash, 'earned' => $earned, 'allPercent' => $allPercent];
+        return $this->render('bitconnect', ['model' => $model, 'resultDays' => $resultDays, 'resultAll' => $resultAll]);
     }
 }
