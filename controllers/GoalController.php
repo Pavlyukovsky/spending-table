@@ -21,6 +21,7 @@ class GoalController extends Controller
         if (!$model->load(Yii::$app->request->post()) || !$model->validate()) {
             return $this->render('index', [
                 'model' => $model,
+                'total' => 0
             ]);
         }
 
