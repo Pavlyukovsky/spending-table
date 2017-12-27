@@ -18,10 +18,10 @@ $this->title = 'My Yii Application';
                     'id' => 'goal-bitconnect-form',
                 ]); ?>
 
-                <?= $form->field($model, 'begin')->textInput(['autofocus' => true, 'value' => 100]) ?>
-                <?= $form->field($model, 'percent')->textInput(['value' => 0.86]) ?>
+                <?= $form->field($model, 'begin')->textInput(['autofocus' => true, 'value' => $model->begin ? $model->begin: 100]) ?>
+                <?= $form->field($model, 'percent')->textInput(['value' => $model->percent ? $model->percent: 0.86]) ?>
 
-                <?= $form->field($model, 'days')->textInput(['value' => 30]) ?>
+                <?= $form->field($model, 'days')->textInput(['value' => $model->days ? $model->days: 30]) ?>
                 <?= $form->field($model, 'capitalize')->checkbox() ?>
 
                 <div class="form-group">
