@@ -83,26 +83,45 @@ class GoalController extends Controller
         $begin = (double)$model->begin;
         $percent = (double)$model->percent;
         $days = (int)$model->days;
+        $percentReinvest = 100;
         $isCapitalization = ($model->capitalize) ? true : false;
 
-        $cash = $begin;
-        $sum = $begin;
+        $investment = $begin;
+        $saved = 0; // Сколько денег мы сохраняем (Выводим)
+        $earned = 0; // Сколько денег мы всего заработали
         $resultDays = [];
         for ($i = 0; $i < $days; $i++) {
             if ($isCapitalization) {
-                $add = $cash * $percent / 100;
+                // Сколько зарабатываем в день с капитализацией
+                $dailyEarned = $investment * $percent / 100;
+
+                // Сколько будем реинвестировать
+                $dailyReinvest = $dailyEarned * $percentReinvest / 100;
+
+                // Сколько будем выводить
+                $dailySaved = $dailyEarned - $dailyReinvest;
+                $saved += $dailySaved;
             } else {
-                $add = $sum * $percent / 100;
+                // Сколько зарабатываем в день без капитализацией
+                $dailyEarned = $investment * $percent / 100;
+
+                // Сколько будем реинвестировать
+                $dailyReinvest = 0;
+
+                // Сколько будем выводить
+                $dailySaved = $dailyEarned;
+                $saved += $dailySaved;
             }
+            $earned += $dailyEarned;
 
-            $cash = $cash + $add;
+            $investment = $investment + $dailyReinvest;
 
-            $resultDays[] = ['balance' => $cash, 'earned' => $add];
+            $resultDays[] = ['investment' => $investment, 'reinvest' => $dailyReinvest, 'saved' => $dailySaved, 'earned' => $earned];
         }
 
-        $allPercent = (100 * $cash / $begin) - 100;
-        $earned = $cash - $sum;
-        $resultAll = ['balance' => $cash, 'earned' => $earned, 'allPercent' => $allPercent];
+        $allPercent = (100 * $earned / $begin);
+        $reinvest = $investment - $begin;
+        $resultAll = ['investment' => $investment, 'reinvest' => $reinvest, 'saved' => $saved, 'allPercent' => $allPercent];
         return $this->render('bitconnect', ['model' => $model, 'resultDays' => $resultDays, 'resultAll' => $resultAll]);
     }
 }

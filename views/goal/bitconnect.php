@@ -41,26 +41,29 @@ $this->title = 'My Yii Application';
                                 <thead>
                                 <tr>
                                     <th><?=Yii::t('app', 'Day')?> #</th>
-                                    <th class="text-center"><?=Yii::t('app', 'Balance')?></th>
-                                    <th class="text-center"><?=Yii::t('app', 'Earned')?></th>
-                                    <th class="text-center"><?=Yii::t('app', 'Earned All')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Investment')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Daily Reinvest')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Daily Saved (Output)')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Today Earned All')?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($resultDays as $key => $day): ?>
                                     <tr class="<?php echo (!($key % 2)) ? "active" : ""; ?>">
                                         <th scope="row"><?= $key + 1 ?></th>
-                                        <td><?= Yii::$app->formatter->asCurrency($day['balance']); ?></td>
-                                        <td><?= Yii::$app->formatter->asCurrency($day['earned']); ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($day['investment']); ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($day['reinvest']); ?></td>
+                                        <td><?= Yii::$app->formatter->asCurrency($day['saved']); ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($day['earned']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
 
                                 <tr class="success">
                                     <th scope="row">Total:</th>
-                                    <td><?= Yii::t('app', 'Your balance: ');?><?= Yii::$app->formatter->asCurrency($resultAll['balance']); ?></td>
-                                    <td><?= Yii::t('app', 'Total Earned ');?><?= Yii::$app->formatter->asCurrency($resultAll['earned']); ?></td>
-                                    <td><?= Yii::t('app', 'Total Earned in percent: ');?><?= Yii::$app->formatter->asCurrency($resultAll['allPercent']) ?> %</td>
+                                    <td><?= Yii::t('app', 'Your Investment: ');?><?= Yii::$app->formatter->asCurrency($resultAll['investment']); ?></td>
+                                    <td><?= Yii::t('app', 'Your Reinvest ');?><?= Yii::$app->formatter->asCurrency($resultAll['reinvest']); ?></td>
+                                    <td><?= Yii::t('app', 'Your Saved: ');?><?= Yii::$app->formatter->asCurrency($resultAll['saved']) ?></td>
+                                    <td><?= Yii::t('app', 'Your Earned in percent: ');?><?= Yii::$app->formatter->asCurrency($resultAll['allPercent']) ?> %</td>
                                 </tr>
                                 </tbody>
                             </table>
