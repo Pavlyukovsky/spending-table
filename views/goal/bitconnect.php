@@ -13,7 +13,7 @@ $this->title = 'My Yii Application';
 <div class="site-index">
     <div class="body-content">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <?php $form = ActiveForm::begin([
                     'id' => 'goal-bitconnect-form',
                 ]); ?>
@@ -33,7 +33,7 @@ $this->title = 'My Yii Application';
 
                 <?php ActiveForm::end(); ?>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <?php if(isset($resultDays)):?>
                     <div class="row">
                         <div class="panel panel-info">
@@ -43,7 +43,7 @@ $this->title = 'My Yii Application';
                                 <tr>
                                     <th><?=Yii::t('app', 'Day')?> #</th>
                                     <th class="text-center"><?=Yii::t('app', 'Investment')?></th>
-                                    <th class="text-center"><?=Yii::t('app', 'Daily Reinvest')?></th>
+                                    <th class="text-center"><?=Yii::t('app', 'Daily Reinvest Balance(today income)')?></th>
                                     <th class="text-center"><?=Yii::t('app', 'Daily Saved (Output)')?></th>
                                     <th class="text-center"><?=Yii::t('app', 'Today Earned All')?></th>
                                 </tr>
@@ -53,7 +53,12 @@ $this->title = 'My Yii Application';
                                     <tr class="<?php echo (!($key % 2)) ? "active" : ""; ?>">
                                         <th scope="row"><?= $key + 1 ?></th>
                                         <td><?= Yii::$app->formatter->asCurrency($day['investment']); ?></td>
-                                        <td><?= Yii::$app->formatter->asCurrency($day['reinvest']); ?></td>
+                                        <td>
+                                            <?= sprintf("%s (%s)",
+                                                Yii::$app->formatter->asCurrency($day['balance']),
+                                                Yii::$app->formatter->asCurrency($day['reinvest']));
+                                            ?>
+                                        </td>
                                         <td><?= Yii::$app->formatter->asCurrency($day['saved']); ?></td>
                                         <td><?= Yii::$app->formatter->asCurrency($day['earned']); ?></td>
                                     </tr>
