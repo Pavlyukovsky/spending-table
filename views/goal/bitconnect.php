@@ -20,6 +20,7 @@ $this->title = 'My Yii Application';
 
                 <?= $form->field($model, 'begin')->textInput(['autofocus' => true, 'value' => $model->begin ? $model->begin: 100]) ?>
                 <?= $form->field($model, 'percent')->textInput(['value' => $model->percent ? $model->percent: 0.86]) ?>
+                <?= $form->field($model, 'percentReinvest')->textInput(['value' => $model->percentReinvest ? $model->percentReinvest: 100]) ?>
 
                 <?= $form->field($model, 'days')->textInput(['value' => $model->days ? $model->days: 30]) ?>
                 <?= $form->field($model, 'capitalize')->checkbox() ?>

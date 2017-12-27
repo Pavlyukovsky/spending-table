@@ -15,6 +15,7 @@ class GoalBitconnectForm extends Model
 {
     public $begin;
     public $percent;
+    public $percentReinvest;
     public $days;
     public $capitalize;
 
@@ -24,8 +25,8 @@ class GoalBitconnectForm extends Model
     public function rules()
     {
         return [
-            [['begin', 'percent', 'days', 'capitalize'], 'required'],
-            [['begin', 'percent', 'days'], 'double'],
+            [['begin', 'percent', 'percentReinvest', 'days', 'capitalize'], 'required'],
+            [['begin', 'percent', 'percentReinvest', 'days'], 'double'],
         ];
     }
 }

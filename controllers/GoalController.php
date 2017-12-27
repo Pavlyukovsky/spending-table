@@ -84,7 +84,7 @@ class GoalController extends Controller
         $begin = (double)$model->begin;
         $percent = (double)$model->percent;
         $days = (int)$model->days;
-        $percentReinvest = 100;
+        $percentReinvest = (double)$model->percentReinvest;
         $isCapitalization = ($model->capitalize) ? true : false;
 
         $investment = $begin;
